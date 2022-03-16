@@ -1,5 +1,5 @@
 // 1- ici on va inscrire les VARIABLES dont on se servira par la suite
-const PageTitle = document.querySelector("body > title");
+const pageTitle = document.querySelector("head > title");
 const productImg = document.querySelector(".item__img");
 const productTitle = document.getElementById("title");
 const productPrice = document.getElementById("price");
@@ -37,6 +37,11 @@ function askToBack(){
             i++;
         } 
     console.log(i);
+    pageTitle.innerHTML = products[i].name
+    productImg.innerHTML = `<img src ="${products[i].imageUrl}" alt="${products[i].altTxt}">`
+    productTitle.innerHTML = products[i].name
+    productPrice.innerHTML = `${products[i].price}`
+    productDescription.innerHTML = products[i].description
     })
     
 
