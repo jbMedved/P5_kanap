@@ -18,12 +18,36 @@ const myId = searchUrl.searchParams.get("id");
 //console.log(myId);
 
 
+function askToBack(){
+    fetch (backEndProducts)
+    .then (function(res){
+        if (res.ok){
+            return res.json();
+        }
+    })
+    .then (function produits (products){
+        //obtenir l'index en fonction de l'ID
+        //const positionProducts = products.indexOf(myId);
+        //productsLength = products.length;
+        let i = 0;
+        //console.log(products[0])
+        //console.log(products[0]._id)
+        //console.log(products[i]._id)  
+        while (myId !=products[i]._id){
+            i++;
+        } 
+    console.log(i);
+    })
+    
 
-// 2- ici on va inscrire les fonctions dont on servire par la suite
-
+    .catch(function(err){
+        console.log("souci avec le fetch")
+    });
+};
 
 
 // 3- ici ce sont les classes que l'on va inscrire pour la suite
 
 
 // et voici le code tant attendu
+productTitle.addEventListener('load',askToBack());
