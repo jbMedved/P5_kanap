@@ -37,13 +37,23 @@ function askToBack(){
             i++;
         } 
     console.log(i);
+
+    const colorsOfProduct = products[i].colors;
+    console.log(colorsOfProduct.length);
+
     pageTitle.innerHTML = products[i].name
     productImg.innerHTML = `<img src ="${products[i].imageUrl}" alt="${products[i].altTxt}">`
     productTitle.innerHTML = products[i].name
     productPrice.innerHTML = `${products[i].price}`
     productDescription.innerHTML = products[i].description
+
+    //ensuite on continue avec le choix de la couleur
+
+
+
+    //ensuite ici, le nombre d'articles à ajouter
     })
-    
+
 
     .catch(function(err){
         console.log("souci avec le fetch")
