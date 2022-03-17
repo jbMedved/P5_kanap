@@ -49,28 +49,43 @@ function askToBack(){
         console.log(colorsOfProduct.length);
 
         if (colorsOfProduct.length == 1){
-            productcolors.innerHTML=
-            `<option value=${colorsOfProduct}>${colorsOfProduct}</option>`;
+            productcolors.innerHTML=`
+            <option value=>Sélectionnez votre mood</option>
+            <option value=${colorsOfProduct}>${colorsOfProduct}</option>`;
         } else if (colorsOfProduct.length == 2){
-            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            productcolors.innerHTML=`
+            <option value=>Sélectionnez votre mood</option>
+            <option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
             <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>`;
         } else if (colorsOfProduct.length == 3){
-            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            productcolors.innerHTML=`
+            <option value=>Sélectionnez votre mood</option>
+            <option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
             <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>
             <option value=${colorsOfProduct[2]}>${colorsOfProduct[2]}</option>`;
         } else {
-            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            productcolors.innerHTML=`
+            <option value=>Sélectionnez votre mood</option>
+            <option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
             <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>
             <option value=${colorsOfProduct[2]}>${colorsOfProduct[2]}</option>
             <option value=${colorsOfProduct[3]}>${colorsOfProduct[3]}</option>`
         }
+        // maintenant que l'on a le choix des couleurs, il faut la choisir
+        productcolors.addEventListener('input', (c) => {
+            let colorSelected = c.target.value;
+            console.log(colorSelected);
+        })
 
         //ensuite ici, le nombre d'articles à ajouter
         productQuantity.addEventListener('input', (n) =>{
             let howMuchProduct = n.target.value;
             console.log(howMuchProduct);
         });
-    
+
+        // on va mettre ici les fonctions qui seront appelées quand on cliquera sur "ajouter au panier"
+
+
         //ici on ecoute le bouton "Ajouter au panier"
         //addToCart.addEventListener('click',)
     
@@ -82,8 +97,6 @@ function askToBack(){
     });
 };
 
-
-// 3- ici ce sont les classes que l'on va inscrire pour la suite
 
 
 // et voici le code tant attendu

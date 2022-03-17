@@ -18,7 +18,6 @@ function askToBack(){
         // pour chaque kanap, on fait un inner.html
         products.forEach((product, i) => {
             //on colle in setInterval pour la repetition
-        
                 setTimeout(() => { //pour le moment ca marche avec setTimeout mais pas setInterval
                     // contenu 
                     items.innerHTML = `
@@ -33,14 +32,10 @@ function askToBack(){
                 },i * 1500)
         })
     })
-
     .catch(function(err){
         console.log("souci avec le fetch")
     });
 };
-
-
-// 3- ici ce sont les classes que l'on va inscrire pour la suite
 
 
 // et voici le code tant attendu
