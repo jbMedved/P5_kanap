@@ -36,22 +36,44 @@ function askToBack(){
         while (myId !=products[i]._id){
             i++;
         } 
-    console.log(i);
+        console.log(i);
 
-    const colorsOfProduct = products[i].colors;
-    console.log(colorsOfProduct.length);
+        pageTitle.innerHTML = products[i].name
+        productImg.innerHTML = `<img src ="${products[i].imageUrl}" alt="${products[i].altTxt}">`
+        productTitle.innerHTML = products[i].name
+        productPrice.innerHTML = `${products[i].price}`
+        productDescription.innerHTML = products[i].description
 
-    pageTitle.innerHTML = products[i].name
-    productImg.innerHTML = `<img src ="${products[i].imageUrl}" alt="${products[i].altTxt}">`
-    productTitle.innerHTML = products[i].name
-    productPrice.innerHTML = `${products[i].price}`
-    productDescription.innerHTML = products[i].description
+        //ensuite on continue avec le choix de la couleur
+        const colorsOfProduct = products[i].colors;
+        console.log(colorsOfProduct.length);
 
-    //ensuite on continue avec le choix de la couleur
+        if (colorsOfProduct.length == 1){
+            productcolors.innerHTML=
+            `<option value=${colorsOfProduct}>${colorsOfProduct}</option>`;
+        } else if (colorsOfProduct.length == 2){
+            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>`;
+        } else if (colorsOfProduct.length == 3){
+            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>
+            <option value=${colorsOfProduct[2]}>${colorsOfProduct[2]}</option>`;
+        } else {
+            productcolors.innerHTML=`<option value=${colorsOfProduct[0]}>${colorsOfProduct[0]}</option>
+            <option value=${colorsOfProduct[1]}>${colorsOfProduct[1]}</option>
+            <option value=${colorsOfProduct[2]}>${colorsOfProduct[2]}</option>
+            <option value=${colorsOfProduct[3]}>${colorsOfProduct[3]}</option>`
+        }
 
-
-
-    //ensuite ici, le nombre d'articles à ajouter
+        //ensuite ici, le nombre d'articles à ajouter
+        productQuantity.addEventListener('input', (n) =>{
+            let howMuchProduct = n.target.value;
+            console.log(howMuchProduct);
+        });
+    
+        //ici on ecoute le bouton "Ajouter au panier"
+        //addToCart.addEventListener('click',)
+    
     })
 
 
