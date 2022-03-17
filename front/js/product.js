@@ -6,7 +6,9 @@ const productPrice = document.getElementById("price");
 const productDescription = document.getElementById("description");
 const productcolors = document.getElementById("colors");
 const productQuantity = document.getElementById("quantity");
-const addToCart = document.getElementById("addToCart");
+const addToCartButton = document.getElementById("addToCart");
+let colorSelected = "";
+let howMuchProduct = 0;
 
 const backEndProducts = "http://localhost:3000/api/products";
 
@@ -73,22 +75,48 @@ function askToBack(){
         }
         // maintenant que l'on a le choix des couleurs, il faut la choisir
         productcolors.addEventListener('input', (c) => {
-            let colorSelected = c.target.value;
+            colorSelected = c.target.value;
             console.log(colorSelected);
         })
 
         //ensuite ici, le nombre d'articles à ajouter
         productQuantity.addEventListener('input', (n) =>{
-            let howMuchProduct = n.target.value;
+            howMuchProduct = n.target.value;
             console.log(howMuchProduct);
         });
 
         // on va mettre ici les fonctions qui seront appelées quand on cliquera sur "ajouter au panier"
-
-
-        //ici on ecoute le bouton "Ajouter au panier"
-        //addToCart.addEventListener('click',)
-    
+            //fonction de sauvegarde du panier
+            function saveCart(cart) {
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+                //fonction "d'affichage" du contenu du panier
+            function getCart() {
+                let cart = localStorage.getItem("cart");
+                if (cart == null){   // si le panier est inexistant
+                    return [];
+                } else {            // si le panier existe deja
+                    return JSON.parse(cart);
+                }
+            }
+                //fonction d'ajout au panier
+            function addToCart(product){
+                let cart = getCart();   // on appelle le panier
+                let alreadyInCart = cart.find(p => p.id ==product.id);  // le produit qu'on ajoute : existe deja dans notre panier? 
+                if (alreadyInCart !== undefined) {               //  oui :
+                    alreadyInCart.quantity = howMuchProduct ; // on modifie les quantités
+                } else {                      //non :
+                cart.push(product);     // on y ajoute notre produit
+                }
+                saveCart(cart);         // on sauvegarde le tout
+            }
+            //ici on ecoute le bouton "Ajouter au panier"
+            addToCartButton.addEventListener('click',()=>{
+                addToCart({
+                id:`${myId}${colorSelected[0]}${colorSelected[1]}${colorSelected[2]}${colorSelected[3]}`,
+                "name": `${products[i].name}`, "color":`${colorSelected}`,
+                "quantity":`${howMuchProduct}`})
+            });
     })
 
 
@@ -101,3 +129,6 @@ function askToBack(){
 
 // et voici le code tant attendu
 productTitle.addEventListener('load',askToBack());
+
+
+        
