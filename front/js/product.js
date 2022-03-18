@@ -104,7 +104,7 @@ function askToBack(){
                 let cart = getCart();   // on appelle le panier
                 let alreadyInCart = cart.find(p => p.id ==product.id);  // le produit qu'on ajoute : existe deja dans notre panier? 
                 if (alreadyInCart !== undefined) {               //  oui :
-                    alreadyInCart.quantity = howMuchProduct ; // on modifie les quantités
+                    alreadyInCart.quantity += howMuchProduct ; // on modifie les quantités
                 } else {                      //non :
                 cart.push(product);     // on y ajoute notre produit
                 }
@@ -112,11 +112,17 @@ function askToBack(){
             }
             //ici on ecoute le bouton "Ajouter au panier"
             addToCartButton.addEventListener('click',()=>{
-                addToCart({
-                id:`${myId}${colorSelected[0]}${colorSelected[1]}${colorSelected[2]}${colorSelected[3]}`,
-                "name": `${products[i].name}`, "color":`${colorSelected}`,
-                "quantity":`${howMuchProduct}`})
-            });
+                if (colorSelected == "") {
+                    alert("Veuillez Choisir une couleur svp")
+                } else if (howMuchProduct == 0) {
+                    alert("Veuillez Choisir une quantité svp")
+                } else {                
+                    addToCart({
+                    id:`${myId}${colorSelected[0]}${colorSelected[1]}${colorSelected[2]}${colorSelected[3]}`,
+                    "name": products[i].name, "color":colorSelected,
+                    "quantity":howMuchProduct})
+                };
+            })
     })
 
 
