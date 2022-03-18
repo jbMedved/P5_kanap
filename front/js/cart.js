@@ -1,60 +1,97 @@
 // 1- ici on va inscrire les VARIABLES dont on se servira par la suite
+const cartItems = document.getElementById("cart__items");
+const totalQuantity = document.getElementById("totalQuantity");
+const totalPrice = document.getElementById("totalPrice");
+const order = document.getElementById("order");
+const itemQuantity = document.getElementById("itemQuantity");
 
+const cartOrderFormSubmit = document.querySelector(".cart__order__form__submit");
 
-// la classe panier dans laquel on va placer tout ce dont on a besoin pour "jouer" avec le panier
-// class panier {
-//    constructor(){
-// on récupere les données depuis localStorage et on les remet en JS 
-//        let panier = localStorage.getItem("panier");
-//        if (panier ==null){
-//            this.panier = []
-//        } else {
-//            this.panier = JSON.parse(panier);
-//        }   
-//    }
-    // sauvegarde du panier dans localStorage en chaine de caracteres via JSON pour localstorage
-//    save(){
-//        localStorage.setItem("panier",JSON.stringify(this.panier));
-//    }
-    // ajout au panier
-//    add(produit){                                       
-//    let produitTrouve = this.panier.find(e =>e.id ==produit.id);         // on verifie si le produit est déja dans le panier pour ajouter produit ou modifier quantité
-//        let colorTrouve = this.panier.find(f =>f.color ==produit.color);     // on fait pareil avec la couleur
-//        if(produitTrouve != undefined && colorTrouve != undefined) {        // on verifie s'il n'est pas deja dans notre panier (id + couleur)
-//            produit.quantity ++;                                            // si oui, on ajoute 1 en quantité
-//        } else {                                                            // sinon
-//            this.panier.push(produit);                                           // on ajoute au panier
-//            produit.quantity =1;                                            // avec 1 en quantité                                       
-//        }
-//        this.save();                                                         // on sauvegarde notre panier dans localStorage
-//    }
-    // suppression dans le panier
-//    remove(produit){
-//        this.panier = this.panier.filter(p =>p.id !=produit.id)             // ici ca revient a garder tout de qui est different de produit.id
-//        this.save();                                                         // on sauvegarde notre panier dans localStorage
-//    }
-    // modifier les quantités
-//    modifyQuantities(produit, quantite){
-//        let produitTrouve = this.panier.find(e =>e.id ==produit.id);            // on verifie si le produit est déja dans le panier pour ajouter produit ou modifier quantité      
-//        if(produitTrouve != undefined && colorTrouve != undefined) {            // on verifie s'il est deja dans notre panier (id + couleur)
-//            produitTrouve.quantite += quantite;                                 // si oui, on ajoute la quantité
-//            if (produitTrouve.quantite <= 0) {                                  // si quantité égal ou inferieur a 0
-//                this.remove(produitTrouve);                                  // alors on supprime le produit du panier
-//            } else {                                                            // sinon
-//                this.save();                                                     // on sauvegarde notre panier dans localStorage
-//            }                            
-//        } 
-//    } 
-    // prix total
-//    prixTotal(){                           
-//        let prix;   
-//        for (let produit of this.panier) {                                   // pour chaque produit du panier
-//            prix += produit.quantite * produit.prix;                    // on multiplie le prix unitaire par la quantité
-//        }
-//        return prix;                                                    //on retourne le prix total
-//    }
-//};
-    
+const backEndProducts = "http://localhost:3000/api/products";
+
+let totalQuantityInTheCart = 0;
+let totalPriceOfTheCart = 0;
+
+// 2- ici on va inscrire les fonctions dont on servire par la suite
+function askToBack(){
+    fetch (backEndProducts)
+    .then (function(res){
+        if (res.ok){
+            return res.json();
+        }
+    })
+    .then (function produits (products){    
+        // on va se servir des memes fonctions que dans products.js
+            //fonction de sauvegarde du panier
+            function saveCart(cart) {
+                localStorage.setItem("cart", JSON.stringify(cart));
+            }
+            //fonction "d'affichage" du contenu du panier
+            function getCart() {
+                let cart = localStorage.getItem("cart");
+                if (cart == null){   // si le panier est inexistant
+                    return [];
+                } else {            // si le panier existe deja
+                    return JSON.parse(cart);
+                }
+            }
+            // on va "appeler" le contenu du panier
+            cart = getCart();
+            console.log(cart);
+        // combien de lignes a mon panier?
+        let howMuchLinesInMyCart = cart.length;
+        console.log(howMuchLinesInMyCart);
+        // fort de cette information, on va pouvoir "contruire le visuel du panier"
+        let i = 0;
+        while (i < howMuchLinesInMyCart){              
+            cartItems.innerHTML +=
+            `
+                <article class="cart__item" data-id="${cart[i].id}" data-color="${cart[i].color}">
+                <div class="cart__item__img">
+                    <img src="${products[i].imageUrl}" alt="${products[i].altTxt}">
+                </div>
+                <div class="cart__item__content">
+                    <div class="cart__item__content__description">
+                        <h2>${products[i].name}</h2>
+                        <p>${cart[i].color}</p>
+                        <p>${products[i].price}€</p>
+                    </div>
+                    <div class="cart__item__content__settings">
+                        <div class="cart__item__content__settings__quantity">
+                            <p>Qté : </p>
+                            <input type="number" id="itemQuantity" 
+                            name="itemQuantity" min="1" max="100" value="${cart[i].quantity}">
+                        </div>
+                        <div class="cart__item__content__settings__delete">
+                            <p class="deleteItem">Supprimer</p>
+                        </div>
+                    </div>
+                </div>
+            </article>`
+
+            //a verifier ces soucis de mise a jour panier
+            //console.log(itemQuantity);
+            //itemQuantity.addEventListener('input',(n) =>{
+            //    howMuchProduct = n.target.value;
+            //    console.log(howMuchProduct);
+            //})
+
+            
+            totalQuantityInTheCart += cart[i].quantity
+            totalPriceOfTheCart += (cart[i].quantity * products[i].price)
+            totalQuantity.innerHTML = totalQuantityInTheCart;
+            totalPrice.innerHTML = totalPriceOfTheCart;
+            i++;
+
+        }
+            
+       
+    })
+}
+// 3- ici ce sont les classes que l'on va inscrire pour la suite
 
 
 // et voici le code tant attendu
+cartOrderFormSubmit.addEventListener('load',askToBack());
+
+
