@@ -3,8 +3,8 @@ const cartItems = document.getElementById("cart__items");
 const totalQuantity = document.getElementById("totalQuantity");
 const totalPrice = document.getElementById("totalPrice");
 const order = document.getElementById("order");
-const itemQuantity = document.getElementById("itemQuantity");
 
+const itemQuantity = document.querySelector(".itemQuantity");
 const cartOrderFormSubmit = document.querySelector(".cart__order__form__submit");
 
 const backEndProducts = "http://localhost:3000/api/products";
@@ -47,34 +47,37 @@ function askToBack(){
             cartItems.innerHTML +=
             `
                 <article class="cart__item" data-id="${cart[i].id}" data-color="${cart[i].color}">
-                <div class="cart__item__img">
-                    <img src="${products[i].imageUrl}" alt="${products[i].altTxt}">
-                </div>
-                <div class="cart__item__content">
-                    <div class="cart__item__content__description">
-                        <h2>${products[i].name}</h2>
-                        <p>${cart[i].color}</p>
-                        <p>${products[i].price}€</p>
+                    <div class="cart__item__img">
+                        <img src="${products[i].imageUrl}" alt="${products[i].altTxt}">
                     </div>
-                    <div class="cart__item__content__settings">
-                        <div class="cart__item__content__settings__quantity">
-                            <p>Qté : </p>
-                            <input type="number" id="itemQuantity" 
-                            name="itemQuantity" min="1" max="100" value="${cart[i].quantity}">
+                    <div class="cart__item__content">
+                        <div class="cart__item__content__description">
+                            <h2>${products[i].name}</h2>
+                            <p>${cart[i].color}</p>
+                            <p>${products[i].price}€</p>
                         </div>
-                        <div class="cart__item__content__settings__delete">
-                            <p class="deleteItem">Supprimer</p>
+                        <div class="cart__item__content__settings">
+                            <div class="cart__item__content__settings__quantity">
+                                <p>Qté : </p>
+                                <input type="number" class="itemQuantity" 
+                                name="itemQuantity" min="1" max="100" value="${cart[i].quantity}">
+                            </div>
+                            <div class="cart__item__content__settings__delete">
+                                <p class="deleteItem">Supprimer</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </article>`
-
+                </article>
+            `
+            
             //a verifier ces soucis de mise a jour panier
-            //console.log(itemQuantity);
-            //itemQuantity.addEventListener('input',(n) =>{
-            //    howMuchProduct = n.target.value;
-            //    console.log(howMuchProduct);
-            //})
+            const itemQuantity = document.querySelector(".itemQuantity");
+            console.log(itemQuantity);
+            itemQuantity.addEventListener('input',(n) =>{
+                //cart[i].quantity= n.target.value;
+                //console.log(cart[i].quantity);
+                console.log(n.target.value);
+            })
 
             
             totalQuantityInTheCart += cart[i].quantity
