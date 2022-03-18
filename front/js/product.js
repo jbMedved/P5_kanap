@@ -81,7 +81,7 @@ function askToBack(){
 
         //ensuite ici, le nombre d'articles à ajouter
         productQuantity.addEventListener('input', (n) =>{
-            howMuchProduct = n.target.value;
+            howMuchProduct = Number(n.target.value);
             console.log(howMuchProduct);
         });
 
@@ -102,7 +102,7 @@ function askToBack(){
                 //fonction d'ajout au panier
             function addToCart(product){
                 let cart = getCart();   // on appelle le panier
-                let alreadyInCart = cart.find(p => p.id ==product.id);  // le produit qu'on ajoute : existe deja dans notre panier? 
+                let alreadyInCart = cart.find(p => p.id ==product.id && p.color ==product.color);  // le produit qu'on ajoute : existe deja dans notre panier? 
                 if (alreadyInCart !== undefined) {               //  oui :
                     alreadyInCart.quantity += howMuchProduct ; // on modifie les quantités
                 } else {                      //non :
@@ -113,13 +113,14 @@ function askToBack(){
             //ici on ecoute le bouton "Ajouter au panier"
             addToCartButton.addEventListener('click',()=>{
                 if (colorSelected == "") {
-                    alert("Veuillez Choisir une couleur svp")
+                    alert("Veuillez Choisir une couleur svp") //on controle si une couleur est choisie
                 } else if (howMuchProduct == 0) {
-                    alert("Veuillez Choisir une quantité svp")
+                    alert("Veuillez Choisir une quantité svp") //on controle si une quantité est saisie
                 } else {                
                     addToCart({
-                    id:`${myId}${colorSelected[0]}${colorSelected[1]}${colorSelected[2]}${colorSelected[3]}`,
-                    "name": products[i].name, "color":colorSelected,
+                    id:myId,
+                    "name": products[i].name, 
+                    "color":colorSelected,
                     "quantity":howMuchProduct})
                 };
             })

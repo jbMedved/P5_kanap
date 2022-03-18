@@ -17,10 +17,9 @@ function askToBack(){
     .then (function produits (products){
         // pour chaque kanap, on fait un inner.html
         products.forEach((product, i) => {
-            //on colle in setInterval pour la repetition
-                setTimeout(() => { //pour le moment ca marche avec setTimeout mais pas setInterval
+
                     // contenu 
-                    items.innerHTML = `
+                    items.innerHTML += `
                         <a href =./product.html?id=${product._id}>
                             <article>
                                 <img src ="${product.imageUrl}" alt="${product.altTxt}">
@@ -29,7 +28,7 @@ function askToBack(){
                             </article>
                         </a>
                     `
-                },i * 1500)
+
         })
     })
     .catch(function(err){
