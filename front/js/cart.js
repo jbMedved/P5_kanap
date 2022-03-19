@@ -43,18 +43,25 @@ function askToBack(){
         console.log(howMuchLinesInMyCart);
         // fort de cette information, on va pouvoir "contruire le visuel du panier"
         let i = 0;
-        while (i < howMuchLinesInMyCart){              
+        while (i < howMuchLinesInMyCart){ 
+            let s = 0;
+        //console.log(products[0])
+        //console.log(products[0]._id)
+        //console.log(products[i]._id)  
+        while (cart[i].id !=products[s]._id){
+            s++;
+        }             
             cartItems.innerHTML +=
             `
                 <article class="cart__item" data-id="${cart[i].id}" data-color="${cart[i].color}">
                     <div class="cart__item__img">
-                        <img src="${products[i].imageUrl}" alt="${products[i].altTxt}">
+                        <img src="${products[s].imageUrl}" alt="${products[s].altTxt}">
                     </div>
                     <div class="cart__item__content">
                         <div class="cart__item__content__description">
-                            <h2>${products[i].name}</h2>
+                            <h2>${products[s].name}</h2>
                             <p>${cart[i].color}</p>
-                            <p>${products[i].price}€</p>
+                            <p>${products[s].price}€</p>
                         </div>
                         <div class="cart__item__content__settings">
                             <div class="cart__item__content__settings__quantity">
@@ -81,7 +88,7 @@ function askToBack(){
 
             
             totalQuantityInTheCart += cart[i].quantity
-            totalPriceOfTheCart += (cart[i].quantity * products[i].price)
+            totalPriceOfTheCart += (cart[i].quantity * products[s].price)
             totalQuantity.innerHTML = totalQuantityInTheCart;
             totalPrice.innerHTML = totalPriceOfTheCart;
             i++;
