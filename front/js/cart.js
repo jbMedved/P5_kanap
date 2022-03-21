@@ -4,8 +4,9 @@ const totalQuantity = document.getElementById("totalQuantity");
 const totalPrice = document.getElementById("totalPrice");
 const order = document.getElementById("order");
 
-const itemQuantity = document.querySelector(".itemQuantity");
+//const itemQuantity = document.querySelector(".itemQuantity");
 const cartOrderFormSubmit = document.querySelector(".cart__order__form__submit");
+//const deleteItem = document.querySelector(".deleteItem");
 
 const backEndProducts = "http://localhost:3000/api/products";
 
@@ -35,9 +36,16 @@ function askToBack(){
                     return JSON.parse(cart);
                 }
             }
+
             // on va "appeler" le contenu du panier
             cart = getCart();
             console.log(cart);
+        
+        //fonction du bouton "supprimer"
+        function removeFromCart(product){
+            let cart = getCart();
+            cart = cart.filter(p => id != product.id || p.color != product.color);
+        }
         // combien de lignes a mon panier?
         let howMuchLinesInMyCart = cart.length;
         console.log(howMuchLinesInMyCart);
@@ -45,12 +53,12 @@ function askToBack(){
         let i = 0;
         while (i < howMuchLinesInMyCart){ 
             let s = 0;
-        //console.log(products[0])
-        //console.log(products[0]._id)
-        //console.log(products[i]._id)  
-        while (cart[i].id !=products[s]._id){
-            s++;
-        }             
+            //console.log(products[0])
+            //console.log(products[0]._id)
+            //console.log(products[i]._id)  
+            while (cart[i].id !=products[s]._id){
+                s++;
+            }             
             cartItems.innerHTML +=
             `
                 <article class="cart__item" data-id="${cart[i].id}" data-color="${cart[i].color}">
@@ -78,20 +86,58 @@ function askToBack(){
             `
             
             //a verifier ces soucis de mise a jour panier
-            const itemQuantity = document.querySelector(".itemQuantity");
-            console.log(itemQuantity);
-            itemQuantity.addEventListener('input',(n) =>{
-                //cart[i].quantity= n.target.value;
-                //console.log(cart[i].quantity);
-                console.log(n.target.value);
+            const itemQuantity = document.querySelectorAll(".itemQuantity");
+            //console.log(itemQuantity);
+            itemQuantity.forEach((lineItem) => {
+                const article = lineItem.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
+                const dataId = article.dataset.id; // on en récupere l'id
+                const dataColor = article.dataset.color; // on en récupere la couleur
+
+                lineItem.addEventListener('input',() =>{ 
+                    const kanap = cart.find(p => p.id == dataId && p.color == dataColor) //kanap = id+couleur produit              
+                //    console.log(n.target.value);
+                //    console.log(cart[i]);
+                //    console.log(i);
+                kanap.quantity= Number(lineItem.value); // on modifie la valeur
+                saveCart(cart);                         // on l'enregistre cette nouvelle quantité
+                console.log(kanap);
+                //    console.log(cart[i].quantity);
+                calcul(kanap)
+                })   
             })
 
+            //le bouton "supprimer"
+            const deleteItem = document.querySelectorAll(".deleteItem");
+            console.log(deleteItem);
             
-            totalQuantityInTheCart += cart[i].quantity
-            totalPriceOfTheCart += (cart[i].quantity * products[s].price)
-            totalQuantity.innerHTML = totalQuantityInTheCart;
-            totalPrice.innerHTML = totalPriceOfTheCart;
+            deleteItem.forEach((SuppButton) => {
+                //console.log(SuppButton);
+                const article = SuppButton.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
+                //console.log(article);
+                const dataId = article.dataset.id; // on en récupere l'id
+                //console.log(dataId);
+                const dataColor = article.dataset.color; // on en récupere la couleur
+                //console.log(dataColor);
+                SuppButton.addEventListener('clic',() => {
+                    console.log('clic');
+                    const kanap = cart.find(p => p.id != dataId || p.color != dataColor);   //kanap = id+couleur produit
+                    console.log(kanap); 
+                    removeFromCart(kanap);                                                  // on supprime l'article
+                    saveCart(cart); 
+                })
+            })
+            //calcul des quantités items et somme totale
+            function calcul(cart) {
+                totalQuantityInTheCart += cart.quantity
+                totalPriceOfTheCart += (cart.quantity * products[s].price)
+                totalQuantity.innerHTML = totalQuantityInTheCart;
+                totalPrice.innerHTML = totalPriceOfTheCart;
+            }
+        
+            calcul(cart[i])
+
             i++;
+        
 
         }
             
