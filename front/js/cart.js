@@ -110,19 +110,21 @@ function askToBack(){
             const deleteItem = document.querySelectorAll(".deleteItem");
             console.log(deleteItem);
             
-            deleteItem.forEach((SuppButton) => {
-                //console.log(SuppButton);
-                const article = SuppButton.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
+            deleteItem.forEach((suppButton) => {
+                console.log(suppButton);
+                const article = suppButton.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
                 //console.log(article);
                 const dataId = article.dataset.id; // on en récupere l'id
                 //console.log(dataId);
                 const dataColor = article.dataset.color; // on en récupere la couleur
                 //console.log(dataColor);
-                SuppButton.addEventListener('clic',() => {
+                suppButton.addEventListener('click',() => {
                     console.log('clic');
-                    const kanap = cart.find(p => p.id != dataId || p.color != dataColor);   //kanap = id+couleur produit
+                    const kanap = cart.find(p => p.id == dataId && p.color == dataColor);   //kanap =tout ce qui est different de l'id ou de la couleur
+                    article.remove();
                     console.log(kanap); 
-                    removeFromCart(kanap);                                                  // on supprime l'article
+                 //   removeFromCart(kanap);    
+                    cart = cart.filter(p => p.id != dataId || p.color != dataColor);                                              // on supprime l'article
                     saveCart(cart); 
                 })
             })
