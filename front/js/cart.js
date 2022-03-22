@@ -47,11 +47,10 @@ function askToBack(){
             cart = cart.filter(p => id != product.id || p.color != product.color);
         }
         // combien de lignes a mon panier?
-        let howMuchLinesInMyCart = cart.length;
-        console.log(howMuchLinesInMyCart);
+        console.log(cart.length);
         // fort de cette information, on va pouvoir "contruire le visuel du panier"
         let i = 0;
-        while (i < howMuchLinesInMyCart){ 
+        while (i < cart.length){ 
             let s = 0;
             //console.log(products[0])
             //console.log(products[0]._id)
@@ -113,7 +112,7 @@ function askToBack(){
             deleteItem.forEach((suppButton) => {
                 console.log(suppButton);
                 const article = suppButton.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
-                //console.log(article);
+                console.log(article);
                 const dataId = article.dataset.id; // on en récupere l'id
                 //console.log(dataId);
                 const dataColor = article.dataset.color; // on en récupere la couleur
@@ -130,14 +129,13 @@ function askToBack(){
             })
             //calcul des quantités items et somme totale
             function calcul(cart) {
-                totalQuantityInTheCart += cart.quantity
+               totalQuantityInTheCart += cart.quantity
                 totalPriceOfTheCart += (cart.quantity * products[s].price)
                 totalQuantity.innerHTML = totalQuantityInTheCart;
                 totalPrice.innerHTML = totalPriceOfTheCart;
             }
-        
             calcul(cart[i])
-
+            
             i++;
         
 
