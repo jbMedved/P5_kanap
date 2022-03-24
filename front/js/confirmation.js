@@ -4,7 +4,6 @@
 // 2- ici on va inscrire les fonctions dont on servire par la suite
 
 
-
 // 3- ici ce sont les classes que l'on va inscrire pour la suite
 
 

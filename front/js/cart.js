@@ -15,6 +15,11 @@ const addressErrorMsg = document.getElementById("addressErrorMsg");
 const cityErrorMsg = document.getElementById("cityErrorMsg");
 const emailErrorMsg = document.getElementById("emailErrorMsg");
 
+
+
+let dateJour = Date.now(); //on crée la date du jour sous format "brut" pour s'en servir d'ID de commande
+console.log(dateJour)  // on aura ici quelque chose approchant de "1648133997398"
+
 const order = document.getElementById("order");
 
 //const itemQuantity = document.querySelector(".itemQuantity");
@@ -58,15 +63,15 @@ function askToBack(){
             //console.log(cart);
         
         //fonction du bouton "supprimer"
-        function removeFromCart(product){
+            function removeFromCart(product){
             let cart = getCart();
             cart = cart.filter(p => id != product.id || p.color != product.color);
-        }
-        // combien de lignes a mon panier?
-        //console.log(cart.length);
-        // fort de cette information, on va pouvoir "contruire le visuel du panier"
-        let i = 0;
-        while (i < cart.length){ 
+            }
+            // combien de lignes a mon panier?
+            //console.log(cart.length);
+            // fort de cette information, on va pouvoir "contruire le visuel du panier"
+            let i = 0;
+            while (i < cart.length){ 
             let s = 0;
             //console.log(products[0])
             //console.log(products[0]._id)
@@ -146,9 +151,9 @@ function askToBack(){
             i++;
         
 
-        }
-        const itemQuantity = document.querySelectorAll(".itemQuantity");
-        itemQuantity.forEach((lineItem) => {
+            }
+            const itemQuantity = document.querySelectorAll(".itemQuantity");
+            itemQuantity.forEach((lineItem) => {
             const article = lineItem.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
             //console.log(article);
             const dataId = article.dataset.id; // on en récupere l'id
@@ -192,16 +197,77 @@ function askToBack(){
             const deleteItem = document.querySelector(".deleteItem")
             deleteItem.addEventListener('click',calcul);
             cartItems.addEventListener('load',calcul());
-        })
-
-
+            }) 
     })
 }
-
-
-// et voici le code tant attendu
 cartOrderFormSubmit.addEventListener('load',askToBack());
 
+            ////////////////////////////////////////////////////////
+            ///////////////// FINI AVEC LE PANIER //////////////////
+            /////////////// ON PASSE AU FORMULAIRE /////////////////
+            ////////////////////////////////////////////////////////
+
+let firstNameText
+let lastNameText
+let addressText
+let cityText
+let emailText
+let errSaisie = 0
+validation = []
+
+    // on récupere les informations des differents champs
+firstName.addEventListener('input', (f) => {
+    firstNameText = f.target.value;
+});
+
+lastName.addEventListener('input', (l) => {
+    lastNameText = l.target.value;
+});
+
+address.addEventListener('input', (a) => {
+    addressText = a.target.value
+});
+
+city.addEventListener('input', (c) => {
+    cityText = c.target.value;
+});
+
+email.addEventListener('input', (e) => {
+    emailText = e.target.value 
+});
+
+order.addEventListener('click', ()=>{ //ici on ecoute le bouton "commander" 
+    if (cart.length == 0) { //on controle si on a des articles dans le panier
+        alert("le panier est vide") 
+    } else if (howMuchProduct !== 0) {//on controle si les infos sont saisies
+        alert(`Il reste ${errSaisie} champs a remplir`) 
+    } else {     
+        localStorage.setItem("commande", JSON.stringify({
+            id:dateJour+firstNameText[0]+firstNameText[1]+lastNameText[0]+lastNameText[1],
+            "firstName": firstNameText,
+            "lastName": lastNameText,
+            "address": addressText,
+            "city" : cityText,
+            "email": emailText,
+            "quantity":totalQuantityInTheCart,
+            "amount": totalPriceOfTheCart,
+        }))    
+    };
+})
+
+// si tous les champs sont boen remplis, on crée la validation de commande
+
+//alert();
+//      emailErrorMsg.innerHTML = "Champ non rempli / non valide"
+//      firstNameErrorMsg.innerHTML = "Champ non rempli / non valide"
+//      lastNameErrorMsg.innerHTML = "Champ non rempli / non valide";
+//      addressErrorMsg.innerHTML = "Champ non rempli / non valide"
+//      cityErrorMsg.innerHTML = "Champ non rempli / non valide"
+firstNameText
+lastNameText
+addressText
+cityText
+emailText
 
 
 
