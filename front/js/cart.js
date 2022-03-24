@@ -2,6 +2,19 @@
 const cartItems = document.getElementById("cart__items");
 const totalQuantity = document.getElementById("totalQuantity");
 const totalPrice = document.getElementById("totalPrice");
+
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const address = document.getElementById("address");
+const city = document.getElementById("city");
+const email = document.getElementById("email");
+
+const firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+const lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+const addressErrorMsg = document.getElementById("addressErrorMsg");
+const cityErrorMsg = document.getElementById("cityErrorMsg");
+const emailErrorMsg = document.getElementById("emailErrorMsg");
+
 const order = document.getElementById("order");
 
 //const itemQuantity = document.querySelector(".itemQuantity");
@@ -155,24 +168,21 @@ function askToBack(){
                 // on additionne les quantités du panier
                 for (let l1=0; l1< cart.length; l1++){                
                     totalQuantityInTheCart += Number(cart[l1].quantity);
-                    console.log(totalQuantityInTheCart);
+                    //console.log(totalQuantityInTheCart);
                 }
                 //on multiplie id.quantité * id.prix
                 for (let l2=0; l2< cart.length; l2++){                
                     let quantityId = cart[l2].id; 
-                    console.log(quantityId);
+                    //console.log(quantityId);
                     s = 0
                     while (products[s]._id != cart[l2].id ){
                         s++; 
                     }  
                     
                     totalPriceOfTheCart += Number(cart[l2].quantity) * Number(products[s].price)
-                    console.log(cart[l2].quantity);
-                    console.log(products[s].price);
-                    console.log(totalQuantityInTheCart);
                 }
 
-                console.log(totalPriceOfTheCart);
+                //console.log(totalPriceOfTheCart);
                 
                 totalQuantity.innerHTML = totalQuantityInTheCart;
                 totalPrice.innerHTML = totalPriceOfTheCart;
@@ -180,7 +190,6 @@ function askToBack(){
 
             lineItem.addEventListener('input',calcul);
             const deleteItem = document.querySelector(".deleteItem")
-            console.log(deleteItem);
             deleteItem.addEventListener('click',calcul);
             cartItems.addEventListener('load',calcul());
         })
