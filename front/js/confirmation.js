@@ -3,6 +3,11 @@ const myUrl = window.location.href;
 const searchUrl = new URL(myUrl);
 const myId = searchUrl.searchParams.get("id");
 
-//et on l'injecte dans la page:
+// on l'injecte dans la page:
 const orderId = document.getElementById("orderId")
 orderId.innerHTML = myId
+
+// et on vide le panier
+let cart = localStorage.getItem("cart");
+cart = []
+localStorage.setItem("cart", JSON.stringify(cart));

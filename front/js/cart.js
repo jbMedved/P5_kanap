@@ -150,7 +150,7 @@ function askToBack(){
                     article.remove();
                 //    console.log(kanap); 
                  //   removeFromCart(kanap);    
-                    cart = cart.filter(p => p.id != dataId || p.color != dataColor);                                              // on supprime l'article
+                    cart = cart.filter(p => p.id != dataId || p.color != dataColor);       // on supprime l'article
                     saveCart(cart); 
                 })
             })           
@@ -277,7 +277,7 @@ order.addEventListener('click', (e)=>{ //ici on ecoute le bouton "commander"
             products.push(cart[i].id)
         }
         let bodyToSend = {contact, products}
-
+        
         fetch("http://localhost:3000/api/products/order",{
             method:"POST",
             headers:{
@@ -292,12 +292,13 @@ order.addEventListener('click', (e)=>{ //ici on ecoute le bouton "commander"
             }
         })
         .then (function produits (commandId){
+
             console.log(commandId)
             location.href=`./confirmation.html?id=${commandId.orderId}`
         })
-        .catch(function(err){
-            alert("souci avec le serveur : réessayez ultérieurement")
-        });
+        // .catch(function(err){
+        //     alert("souci avec le serveur : réessayez ultérieurement")
+        // });
     };
 
 })
