@@ -128,7 +128,7 @@ function askToBack(){
 
 
     .catch(function(err){ 
-        alert("souci avec le serveur : try again later")
+        alert("souci avec le serveur : réessayez ultérieurement")
     });
 };
 

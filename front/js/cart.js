@@ -71,6 +71,12 @@ function askToBack(){
             //console.log(cart.length);
             // fort de cette information, on va pouvoir "contruire le visuel du panier"
             let i = 0;
+        if (cart.length == 0) {
+            cartItems.innerHTML = " PANIER VIDE"
+            cartItems.style.color = "black"
+            cartItems.style.textAlign = "center"
+            cartItems.style.fontWeight = "bold"
+        }else {
             while (i < cart.length){ 
             let s = 0;
             //console.log(products[0])
@@ -152,6 +158,7 @@ function askToBack(){
         
 
             }
+        }
             const itemQuantity = document.querySelectorAll(".itemQuantity");
             itemQuantity.forEach((lineItem) => {
             const article = lineItem.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
@@ -162,35 +169,40 @@ function askToBack(){
             //console.log(dataColor);
             //ici, on va trouver la quantité en fonction de l'id ET de la couleur
             function calcul() {
-                totalQuantityInTheCart = 0;
-                totalPriceOfTheCart = 0;
-                let i = 0;
-                while (cart[i].id != dataId || cart[i].color != dataColor ){
-                    i++;
-                } 
-                let s = 0;
+                if(cart.length == 0){
+                    totalQuantityInTheCart = 0;
+                    totalPriceOfTheCart = 0; 
+                } else {
+                    totalQuantityInTheCart = 0;
+                    totalPriceOfTheCart = 0;
+                    let i = 0;
+                    while (cart[i].id != dataId || cart[i].color != dataColor ){
+                        i++;
+                    } 
+                    let s = 0;
 
-                // on additionne les quantités du panier
-                for (let l1=0; l1< cart.length; l1++){                
-                    totalQuantityInTheCart += Number(cart[l1].quantity);
-                    //console.log(totalQuantityInTheCart);
-                }
-                //on multiplie id.quantité * id.prix
-                for (let l2=0; l2< cart.length; l2++){                
-                    let quantityId = cart[l2].id; 
-                    //console.log(quantityId);
-                    s = 0
-                    while (products[s]._id != cart[l2].id ){
-                        s++; 
-                    }  
+                    // on additionne les quantités du panier
+                    for (let l1=0; l1< cart.length; l1++){                
+                        totalQuantityInTheCart += Number(cart[l1].quantity);
+                        //console.log(totalQuantityInTheCart);
+                    }
+                    //on multiplie id.quantité * id.prix
+                    for (let l2=0; l2< cart.length; l2++){                
+                        let quantityId = cart[l2].id; 
+                        //console.log(quantityId);
+                        s = 0
+                        while (products[s]._id != cart[l2].id ){
+                            s++; 
+                        }  
                     
-                    totalPriceOfTheCart += Number(cart[l2].quantity) * Number(products[s].price)
-                }
+                        totalPriceOfTheCart += Number(cart[l2].quantity) * Number(products[s].price)
+                    }
 
-                //console.log(totalPriceOfTheCart);
+                        //console.log(totalPriceOfTheCart);
                 
-                totalQuantity.innerHTML = totalQuantityInTheCart;
-                totalPrice.innerHTML = totalPriceOfTheCart;
+                    totalQuantity.innerHTML = totalQuantityInTheCart;
+                    totalPrice.innerHTML = totalPriceOfTheCart;
+                }
             }
 
             lineItem.addEventListener('input',calcul);
@@ -200,7 +212,7 @@ function askToBack(){
             }) 
     })
     .catch(function(err){
-        alert("souci avec le serveur : try again later")
+        alert("souci avec le serveur : réessayez ultérieurement")
     });
 }
 cartOrderFormSubmit.addEventListener('load',askToBack());
@@ -284,7 +296,7 @@ order.addEventListener('click', (e)=>{ //ici on ecoute le bouton "commander"
             location.href=`./confirmation.html?id=${commandId.orderId}`
         })
         .catch(function(err){
-            alert("souci avec le serveur : try again later")
+            alert("souci avec le serveur : réessayez ultérieurement")
         });
     };
 
