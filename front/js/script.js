@@ -11,6 +11,7 @@ function askToBack(){
     fetch (backEndProducts)
     .then (function(res){
         if (res.ok){
+
             return res.json();
         }
     })
@@ -32,7 +33,7 @@ function askToBack(){
         })
     })
     .catch(function(err){
-        console.log("souci avec le fetch")
+        alert("souci avec le serveur : try again later")
     });
 };
 

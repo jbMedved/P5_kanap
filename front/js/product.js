@@ -127,8 +127,8 @@ function askToBack(){
     })
 
 
-    .catch(function(err){
-        console.log("souci avec le fetch")
+    .catch(function(err){ 
+        alert("souci avec le serveur : try again later")
     });
 };
 

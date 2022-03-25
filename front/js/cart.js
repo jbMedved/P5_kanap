@@ -199,6 +199,9 @@ function askToBack(){
             cartItems.addEventListener('load',calcul());
             }) 
     })
+    .catch(function(err){
+        alert("souci avec le serveur : try again later")
+    });
 }
 cartOrderFormSubmit.addEventListener('load',askToBack());
 
@@ -214,6 +217,9 @@ let cityText
 let emailText
 let errSaisie = 0
 validation = []
+regexName =    /[a-z]{1,20}/g;
+regexOther =  /[a-z0-9]{1,20}/g;
+regexMail =   /[A-z0-9-.]{1,}[@][A-z-]{2,}[.][A-z]{2,}/g;
 
     // on récupere les informations des differents champs
 firstName.addEventListener('input', (f) => {
@@ -236,38 +242,59 @@ email.addEventListener('input', (e) => {
     emailText = e.target.value 
 });
 
-order.addEventListener('click', ()=>{ //ici on ecoute le bouton "commander" 
-    if (cart.length == 0) { //on controle si on a des articles dans le panier
+order.addEventListener('click', (e)=>{ //ici on ecoute le bouton "commander" 
+    e.preventDefault()
+        //on controle si on a des articles dans le panier
+    if (cart.length == 0) { 
         alert("le panier est vide") 
-    } else if (howMuchProduct !== 0) {//on controle si les infos sont saisies
-        alert(`Il reste ${errSaisie} champs a remplir`) 
+        //on controle si les infos sont saisie
+    } else if (firstNameText.match (regexName) == null) {
+        firstNameErrorMsg.innerHTML = "Champ non rempli / non valide"
+    } else if (lastNameText.match (regexName) == null) {
+        lastNameErrorMsg.innerHTML = "Champ non rempli / non valide"
+    } else if (addressText.match (regexOther) == null) {
+        addressErrorMsg.innerHTML = "Champ non rempli / non valide"
+    } else if (cityText.match (regexName) == null) {
+        cityErrorMsg.innerHTML = "Champ non rempli / non valide"
+    } else if (emailText.match (regexMail) == null) {
+        emailErrorMsg.innerHTML = "Champ non rempli / non valide"
     } else {     
-        localStorage.setItem("commande", JSON.stringify({
-            id:dateJour+firstNameText[0]+firstNameText[1]+lastNameText[0]+lastNameText[1],
-            "firstName": firstNameText,
-            "lastName": lastNameText,
-            "address": addressText,
-            "city" : cityText,
-            "email": emailText,
-            "quantity":totalQuantityInTheCart,
-            "amount": totalPriceOfTheCart,
-        }))    
+        let contact =  {"firstName":firstNameText, "lastName":lastNameText, "address":addressText, "city" :cityText, "email": emailText}
+        let products = []
+        for(let i=0; i<cart.length; i++) {
+            products.push(cart[i].id)
+        }
+        let bodyToSend = {contact, products}
+
+        fetch("http://localhost:3000/api/products/order",{
+            method:"POST",
+            headers:{
+                'Accept':'application/json',
+                'Content-type':'application/json'
+            },
+            body:JSON.stringify(bodyToSend) 
+        })
+        .then (function(res){
+            if (res.ok){
+                return res.json();
+            }
+        })
+        .then (function produits (commandId){
+            console.log(commandId)
+            location.href=`./confirmation.html?id=${commandId.orderId}`
+        })
+        .catch(function(err){
+            alert("souci avec le serveur : try again later")
+        });
     };
+
 })
 
-// si tous les champs sont boen remplis, on crée la validation de commande
+// si tous les champs sont bien remplis, on crée la validation de commande
 
 //alert();
-//      emailErrorMsg.innerHTML = "Champ non rempli / non valide"
-//      firstNameErrorMsg.innerHTML = "Champ non rempli / non valide"
-//      lastNameErrorMsg.innerHTML = "Champ non rempli / non valide";
-//      addressErrorMsg.innerHTML = "Champ non rempli / non valide"
-//      cityErrorMsg.innerHTML = "Champ non rempli / non valide"
-firstNameText
-lastNameText
-addressText
-cityText
-emailText
-
+//      
+//      
+//     
 
 
