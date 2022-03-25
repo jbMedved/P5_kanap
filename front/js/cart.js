@@ -15,11 +15,6 @@ const addressErrorMsg = document.getElementById("addressErrorMsg");
 const cityErrorMsg = document.getElementById("cityErrorMsg");
 const emailErrorMsg = document.getElementById("emailErrorMsg");
 
-
-
-let dateJour = Date.now(); //on crée la date du jour sous format "brut" pour s'en servir d'ID de commande
-console.log(dateJour)  // on aura ici quelque chose approchant de "1648133997398"
-
 const order = document.getElementById("order");
 
 //const itemQuantity = document.querySelector(".itemQuantity");
@@ -121,14 +116,20 @@ function askToBack(){
 
                 lineItem.addEventListener('input',() =>{ 
                     const kanap = cart.find(p => p.id == dataId && p.color == dataColor) //kanap = id+couleur produit              
-                //    console.log(n.target.value);
-                //    console.log(cart[i]);
-                //    console.log(i);
-                kanap.quantity= Number(lineItem.value); // on modifie la valeur
-                saveCart(cart);                         // on l'enregistre cette nouvelle quantité
-                console.log(kanap);
-                //    console.log(cart[i].quantity);
-            //    calcul(kanap)
+                    //    console.log(n.target.value);
+                    //    console.log(cart[i]);
+                    //    console.log(i);
+                    if(lineItem.value < 1){
+                        alert ("veuillez verifier vos quantités svp")
+                    } else if (lineItem.value > 100){
+                        alert ("pas plus de 100 svp")
+                    }else {
+                        kanap.quantity= Number(lineItem.value); // on modifie la valeur
+                        saveCart(cart);                         // on l'enregistre cette nouvelle quantité
+                        console.log(kanap);
+                        //    console.log(cart[i].quantity);
+                        //    calcul(kanap)
+                    }
                 })   
             })
 
