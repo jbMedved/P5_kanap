@@ -146,13 +146,16 @@ function askToBack(){
                 const dataColor = article.dataset.color; // on en récupere la couleur
                 //console.log(dataColor);
                 suppButton.addEventListener('click',() => {
-                //   console.log('clic');
-                    const kanap = cart.find(p => p.id == dataId && p.color == dataColor);   // kanap = id + couleur du canapé
-                    article.remove();
-                //    console.log(kanap); 
-                 //   removeFromCart(kanap);    
-                    cart = cart.filter(p => p.id != dataId || p.color != dataColor);       // on supprime l'article
-                    saveCart(cart); 
+                    let confirmText = "Vous allez supprimer cet article"
+                    if (confirm(confirmText) == true) {
+                    //   console.log('clic');
+                        const kanap = cart.find(p => p.id == dataId && p.color == dataColor);   // kanap = id + couleur du canapé
+                        article.remove();
+                    //    console.log(kanap); 
+                    //    removeFromCart(kanap);    
+                        cart = cart.filter(p => p.id != dataId || p.color != dataColor);       // on supprime l'article
+                        saveCart(cart);
+                    } 
                 })
             })           
             i++;
