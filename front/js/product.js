@@ -141,8 +141,6 @@ function askToBack(){
 };
 
 
-
-// et voici le code tant attendu
 productTitle.addEventListener('load',askToBack());
 
 
