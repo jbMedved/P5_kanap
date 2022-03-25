@@ -126,7 +126,7 @@ function askToBack(){
                     }else {
                         kanap.quantity= Number(lineItem.value); // on modifie la valeur
                         saveCart(cart);                         // on l'enregistre cette nouvelle quantité
-                        console.log(kanap);
+                        //    console.log(kanap);
                         //    console.log(cart[i].quantity);
                         //    calcul(kanap)
                     }
