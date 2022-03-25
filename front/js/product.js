@@ -38,7 +38,7 @@ function askToBack(){
         while (myId !=products[i]._id){
             i++;
         } 
-        console.log(i);
+        //console.log(i);
 
         pageTitle.innerHTML = products[i].name
         productImg.innerHTML = `<img src ="${products[i].imageUrl}" alt="${products[i].altTxt}">`
@@ -48,7 +48,7 @@ function askToBack(){
 
         //ensuite on continue avec le choix de la couleur
         const colorsOfProduct = products[i].colors;
-        console.log(colorsOfProduct.length);
+        //console.log(colorsOfProduct.length);
 
         if (colorsOfProduct.length == 1){
             productcolors.innerHTML=`
@@ -76,13 +76,13 @@ function askToBack(){
         // maintenant que l'on a le choix des couleurs, il faut la choisir
         productcolors.addEventListener('input', (c) => {
             colorSelected = c.target.value;
-            console.log(colorSelected);
+            //console.log(colorSelected);
         })
 
         //ensuite ici, le nombre d'articles à ajouter
         productQuantity.addEventListener('input', (n) =>{
             howMuchProduct = Number(n.target.value);
-            console.log(howMuchProduct);
+            //console.log(howMuchProduct);
         });
 
         // on va mettre ici les fonctions qui seront appelées quand on cliquera sur "ajouter au panier"
@@ -104,7 +104,13 @@ function askToBack(){
                 let cart = getCart();   // on appelle le panier
                 let alreadyInCart = cart.find(p => p.id ==product.id && p.color ==product.color);  // le produit qu'on ajoute : existe deja dans notre panier? 
                 if (alreadyInCart !== undefined) {               //  oui :
+                    if (alreadyInCart.quantity+howMuchProduct >100){
+                        alert( "pas plus de 100 canapés de meme couleur svp")
+                    } else if (howMuchProduct<1){
+                        alreadyInCart.quantity
+                    } else {
                     alreadyInCart.quantity += howMuchProduct ; // on modifie les quantités
+                    }
                 } else {                      //non :
                 cart.push(product);     // on y ajoute notre produit
                 }
@@ -114,15 +120,17 @@ function askToBack(){
             addToCartButton.addEventListener('click',()=>{
                 if (colorSelected == "") {
                     alert("Veuillez Choisir une couleur svp") //on controle si une couleur est choisie
-                } else if (howMuchProduct == 0) {
-                    alert("Veuillez Choisir une quantité svp") //on controle si une quantité est saisie
+                } else if (howMuchProduct <1) {
+                    alert("Veuillez définir une quantité svp") //on controle si une quantité est saisie
                 } else {                
                     addToCart({
                     id:myId,
                     "name": products[i].name, 
                     "color":colorSelected,
                     "quantity":howMuchProduct})
+                    alert("ajout effectué")
                 };
+                
             })
     })
 
