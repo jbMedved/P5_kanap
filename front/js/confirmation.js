@@ -1,10 +1,8 @@
-// 1- ici on va inscrire les VARIABLES dont on se servira par la suite
+//comment obtenir l'ID depuis l'url : on reprend la recette de product.js
+const myUrl = window.location.href;
+const searchUrl = new URL(myUrl);
+const myId = searchUrl.searchParams.get("id");
 
-
-// 2- ici on va inscrire les fonctions dont on servire par la suite
-
-
-// 3- ici ce sont les classes que l'on va inscrire pour la suite
-
-
-// et voici le code tant attendu
+//et on l'injecte dans la page:
+const orderId = document.getElementById("orderId")
+orderId.innerHTML = myId
