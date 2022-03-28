@@ -5,22 +5,20 @@ const items = document.getElementById("items");
 const backEndProducts = "http://localhost:3000/api/products";
 
 
-// 2- ici on va inscrire les fonctions dont on servire par la suite
-//fonction pour aller taper dans le back
-function askToBack(){
-    fetch (backEndProducts)
-    .then (function(res){
-        if (res.ok){
+function askToBack() {
+    fetch(backEndProducts)
+        .then(function (res) {
+            if (res.ok) {
 
-            return res.json();
-        }
-    })
-    .then (function produits (products){
-        // pour chaque kanap, on fait un inner.html
-        products.forEach((product, i) => {
+                return res.json();
+            }
+        })
+        .then(function produits(products) {
+            // pour chaque kanap, on fait un inner.html
+            products.forEach((product, i) => {
 
-                    // contenu 
-                    items.innerHTML += `
+                // contenu 
+                items.innerHTML += `
                         <a href =./product.html?id=${product._id}>
                             <article>
                                 <img src ="${product.imageUrl}" alt="${product.altTxt}">
@@ -30,13 +28,12 @@ function askToBack(){
                         </a>
                     `
 
+            })
         })
-    })
-    .catch(function(err){
-        alert("souci avec le serveur : réessayez ultérieurement")
-    });
+        .catch(function (err) {
+            alert("souci avec le serveur : réessayez ultérieurement")
+        });
 };
 
 
-// et voici le code tant attendu
-items.addEventListener('load',askToBack());
+items.addEventListener('load', askToBack());

@@ -55,15 +55,13 @@ function askToBack() {
 
             // on va "appeler" le contenu du panier
             cart = getCart();
-            //console.log(cart);
 
             //fonction du bouton "supprimer"
             function removeFromCart(product) {
                 let cart = getCart();
                 cart = cart.filter(p => id != product.id || p.color != product.color);
             }
-            // combien de lignes a mon panier?
-            //console.log(cart.length);
+
             // fort de cette information, on va pouvoir "contruire le visuel du panier"
             let i = 0;
             if (cart.length == 0) {
@@ -74,9 +72,7 @@ function askToBack() {
             } else {
                 while (i < cart.length) {
                     let s = 0;
-                    //console.log(products[0])
-                    //console.log(products[0]._id)
-                    //console.log(products[i]._id)  
+
                     while (cart[i].id != products[s]._id) {
                         s++;
                     }
@@ -106,9 +102,9 @@ function askToBack() {
                 </article>
             `
 
-                    //a verifier ces soucis de mise a jour panier
+
                     const itemQuantity = document.querySelectorAll(".itemQuantity");
-                    //console.log(itemQuantity);
+
                     itemQuantity.forEach((lineItem) => {
                         const article = lineItem.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
                         const dataId = article.dataset.id; // on en récupere l'id
@@ -116,9 +112,7 @@ function askToBack() {
 
                         lineItem.addEventListener('input', () => {
                             const kanap = cart.find(p => p.id == dataId && p.color == dataColor) //kanap = id+couleur produit              
-                            //    console.log(n.target.value);
-                            //    console.log(cart[i]);
-                            //    console.log(i);
+
                             if (lineItem.value < 1) {
                                 alert("veuillez verifier vos quantités svp")
                             } else if (lineItem.value > 100) {
@@ -126,31 +120,23 @@ function askToBack() {
                             } else {
                                 kanap.quantity = Number(lineItem.value); // on modifie la valeur
                                 saveCart(cart);                         // on l'enregistre cette nouvelle quantité
-                                console.log(kanap);
-                                //    console.log(cart[i].quantity);
-                                //    calcul(kanap)
                             }
                         })
                     })
 
                     //le bouton "supprimer"
                     const deleteItem = document.querySelectorAll(".deleteItem");
-                    //console.log(deleteItem);
 
                     deleteItem.forEach((suppButton) => {
-                        //console.log(suppButton);
+
                         const article = suppButton.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
-                        //console.log(article);
+
                         const dataId = article.dataset.id; // on en récupere l'id
-                        //console.log(dataId);
+
                         const dataColor = article.dataset.color; // on en récupere la couleur
-                        //console.log(dataColor);
+
                         suppButton.addEventListener('click', () => {
-                            //   console.log('clic');
-                            //cart.find(p => p.id == dataId && p.color == dataColor);   // kanap = id + couleur du canapé
                             article.remove();
-                            //    console.log(kanap); 
-                            //   removeFromCart(kanap);    
                             cart = cart.filter(p => p.id != dataId || p.color != dataColor);       // on supprime l'article
                             saveCart(cart);
                             calcul()
@@ -172,7 +158,6 @@ function askToBack() {
                     // on additionne les quantités du panier
                     for (let l1 = 0; l1 < cart.length; l1++) {
                         totalQuantityInTheCart += Number(cart[l1].quantity);
-                        //console.log(totalQuantityInTheCart);
                     }
                     //on multiplie id.quantité * id.prix
                     for (let l2 = 0; l2 < cart.length; l2++) {
@@ -185,26 +170,15 @@ function askToBack() {
                         totalPriceOfTheCart += Number(cart[l2].quantity) * Number(products[s].price)
                     }
 
-                    //console.log(totalPriceOfTheCart);
-
                     totalQuantity.innerHTML = totalQuantityInTheCart;
                     totalPrice.innerHTML = totalPriceOfTheCart;
                 }
             }
             const itemQuantity = document.querySelectorAll(".itemQuantity");
             itemQuantity.forEach((lineItem) => {
-                //const article = lineItem.closest('article'); //on recupere l'id en fonction du contenu le la ligne article
-                //console.log(article);
-                //const dataId = article.dataset.id; // on en récupere l'id
-                //console.log(dataId);
-                //const dataColor = article.dataset.color; // on en récupere la couleur            
-                //console.log(dataColor);
+
                 //ici, on va trouver la quantité en fonction de l'id ET de la couleur
-
-                lineItem.addEventListener('input', calcul);
-                //const deleteItem = document.querySelector(".deleteItem")
-
-                //deleteItem.addEventListener('click',calcul);
+                lineItem.addEventListener('input', calcul);;
                 cartItems.addEventListener('load', calcul());
             })
         })
@@ -290,8 +264,6 @@ order.addEventListener('click', (e) => { //ici on ecoute le bouton "commander"
                 }
             })
             .then(function produits(commandId) {
-
-                console.log(commandId)
                 location.href = `./confirmation.html?id=${commandId.orderId}`
             })
             .catch(function (err) {
